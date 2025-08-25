@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 
 class RABBYT
 {
-    //RABBYT STATS
     public string Name { get; set; }
     public int Hunger { get; set; }
     public int Happiness { get; set; }
@@ -10,55 +9,45 @@ class RABBYT
     private const int MaxHunger = 10;
     private const int MaxHappiness = 10;
 
-    //SURVIVED YEARS
     public int YearsSurvived { get; private set; }
 
-    //NEW RABBYT
     public RABBYT(string name)
     {
         Name = name;
-        //RABBYT STARTS FULL
         Hunger = 0;
-        //RABBYT STARTS HAPPY
         Happiness = MaxHappiness;
-        //START AT 0 YEARS
         YearsSurvived = 0;
     }
 
-    //FEED RABBYT
     public void Feed()
     {
-        //FEEDING RABBYT LOWERS HUNGER
         Hunger -= 3;
         if (Hunger < 0) Hunger = 0;
+
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"Yay, {Name} has been fed!");
+        Console.ResetColor();
     }
 
-    //PLAY WITH RABBYT
     public void Play()
     {
-        //PLAYING INCREASES RABBYT'S HAPPINESS
         Happiness += 2;
         if (Happiness > MaxHappiness) Happiness = MaxHappiness;
 
-        //PLAYING MAKES RABBYT HUNGRY
         Hunger += 1;
         if (Hunger > MaxHunger) Hunger = MaxHunger;
 
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"{Name} had lots of fun playing!");
+        Console.ResetColor();
     }
 
-    //EACH YEAR RABBYT GETS MORE HUNGRY AND LOSES HAPPINESS
     public void Live()
     {
-        //INCREASE YEAR COUNTER
         YearsSurvived++;
-
-        //RABBYT GETS MORE HUNGY OVER TIME
         Hunger += 1;
         if (Hunger > MaxHunger) Hunger = MaxHunger;
 
-        //HUNGER MAKES RABBYT SAD
         if (Hunger >= 7)
         {
             Happiness -= 1;
@@ -66,52 +55,72 @@ class RABBYT
         }
     }
 
-    //RABBYT ASCII CHANGES ON MOOD
     private void ShowRABBYT()
     {
         if (Happiness >= 8)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine(" (\\_/)");
             Console.WriteLine(" ( ^.^ )");
             Console.WriteLine(" (> <)");
         }
         else if (Happiness >= 4)
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(" (\\_/)");
             Console.WriteLine(" ( -.- )");
             Console.WriteLine(" (> <)");
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(" (\\_/)");
             Console.WriteLine(" ( T_T )");
             Console.WriteLine(" (> <)");
         }
+        Console.ResetColor();
     }
 
-    //SHOW RABBYT'S STATS
     public void ShowStatus()
     {
+        Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine($"\n{Name}'s Stats:");
-        Console.WriteLine($"Hunger: {Hunger}/{MaxHunger}");
-        Console.WriteLine($"Happiness: {Happiness}/{MaxHappiness}");
-        Console.WriteLine($"Age: {YearsSurvived}");
+        Console.ResetColor();
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("Hunger: ");
+        Console.ResetColor();
+        Console.WriteLine($"{Hunger}/{MaxHunger}");
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("Happiness: ");
+        Console.ResetColor();
+        Console.WriteLine($"{Happiness}/{MaxHappiness}");
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("Age: ");
+        Console.ResetColor();
+        Console.WriteLine($"{YearsSurvived}");
+
         ShowRABBYT();
     }
 
-    //CHECK IF RABBYT STILL ALIVE, RETURN FALSE IF GAME OVER
     public bool IsAlive()
     {
         if (Hunger >= MaxHunger)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Oh, no! {Name} got too hungry and hopped away...");
             Console.WriteLine($"Congratulations! {Name} lived {YearsSurvived} happy years!");
+            Console.ResetColor();
             return false;
         }
         if (Happiness <= 0)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Oh... {Name} became too sad and ran away...");
             Console.WriteLine($"Congratulations! {Name} lived {YearsSurvived} happy years!");
+            Console.ResetColor();
             return false;
         }
         return true;
@@ -122,31 +131,40 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("A little RABBYT hops into your terminal...");
-        Console.Write("What is your RABBYT's name? ");
-        
-        //FALLBACK IF NULL
-        string rabbytName = Console.ReadLine() ?? "RABBYT";  
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("══════════════════════════════════════════");
+        Console.WriteLine("  A little RABBYT hops into your terminal ");
+        Console.WriteLine("══════════════════════════════════════════");
+        Console.ResetColor();
 
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("What is your RABBYT's name? ");
+        Console.ResetColor();
+
+        string rabbytName = Console.ReadLine() ?? "RABBYT";  
         RABBYT rabbyt = new RABBYT(rabbytName);
 
         while (true)
         {
             rabbyt.ShowStatus();
 
-            //CHECK IF GAME OVER BEFORE NEXT YEAR
             if (!rabbyt.IsAlive())
-            {
                 break;
-            }
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nWhat do you want to do?");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("[1] Feed");
             Console.WriteLine("[2] Play");
             Console.WriteLine("[3] Quit");
-            
+            Console.ResetColor();
 
-            //FALLBACK TO QUIT IF NULL
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Choose an option: ");
+            Console.ResetColor();
+
             string choice = Console.ReadLine() ?? "3";
 
             if (choice == "1")
@@ -159,15 +177,18 @@ class Program
             }
             else if (choice == "3")
             {
-                Console.WriteLine($"Goodbye!");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("Goodbye!");
+                Console.ResetColor();
                 break;
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid choice.");
+                Console.ResetColor();
             }
 
-            //END TURN, INCREASE HUNGER, HAPPINESS MAY DROP
             rabbyt.Live(); 
         }
     }
